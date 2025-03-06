@@ -8,3 +8,4 @@ if [$1 -gt 100]
  else
  echo "The number $NUMBER is not greater than 100"
  
+ fi
