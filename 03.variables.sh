@@ -1,5 +1,5 @@
 #!/bin/bash
 
-DATE=$(date)
+PROCESS=$(ps -f)
 
-echo "date and time is: ${DATE}"
+echo "list of the process running in the system: ${PROCESS}"
