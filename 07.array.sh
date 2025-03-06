@@ -2,8 +2,8 @@
 
 DEVOPS=("Linux" "AWS" "Ansible" "Jenkins" "Terraform" "Docker" "Kubernetes")
 
-echo ${DEVOPS[0]}
+echo "First thing need to learn ${DEVOPS[0]}"
 
-echo ${DEVOPS[1]}
+echo "Second thing need to learn ${DEVOPS[1]}"
 
-echo ${DEVOPS[5]}
+echo "Fifth thing need to learn ${DEVOPS[4]}"
