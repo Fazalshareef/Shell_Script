@@ -25,10 +25,10 @@ if [ $ID -ne 0 ]
   echo "User is having the root acess"
  fi
 
-apt install -y mysql-server &>> $LOGFILE
+apt install -y mysql-server >> $LOGFILE 2>&1
 
 VALIDATE $? "Installing mysql"
 
-apt install -y git &>> $LOGFILE
+apt install -y git >> $LOGFILE 2>&1
 
 VALIDATE $? "Installing git"
