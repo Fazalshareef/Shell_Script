@@ -1,49 +1,50 @@
-\#!/bin/bash
+#!/bin/bash
 
 # Get the user ID
 ID=$(id -u)
 
-# Define color codes
-R="\e[31m"  # Red
-G="\e[32m"  # Green
-Y="\e[33m"  # Yellow
-N="\e[0m"   # Normal (reset)
+# Define color codes for output messages
+R="\e[31m"   # Red for failure
+G="\e[32m"   # Green for success
+Y="\e[33m"   # Yellow for skipping
+N="\e[0m"    # Reset color
 
-# Generate a timestamp for the log file
+# Generate a timestamp for logging
 TIMESTAMP=$(date +%F-%H-%M-%S)
-LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "Script started executing at $TIMESTAMP" | tee -a $LOGFILE
+# Define the log file location
+LOGFILE="/tmp/$(basename $0)-$TIMESTAMP.log"
 
-# Function to validate command execution
+# Print script start time
+echo "Script started executing at $TIMESTAMP"
+
+# Function to validate the success or failure of commands
 VALIDATE() {
     if [ $1 -ne 0 ]; then
-        echo -e "$2...$R Failed $N" | tee -a $LOGFILE
-        exit 1
+        echo -e "$2...$R Failed $N"   # Print failure message in red
     else
-        echo -e "$2...$G Success $N" | tee -a $LOGFILE
+        echo -e "$2...$G Success $N"  # Print success message in green
     fi
 }
 
-# Check if the user is root
+# Check if the script is run as root
 if [ $ID -ne 0 ]; then
-    echo -e "$R Error: User is not root. Please run as root. $N" | tee -a $LOGFILE
-    exit 1
+    echo "User is not root, please provide root access"
+    exit 1  # Exit the script if the user is not root
 else
-    echo -e "$G User is root. Proceeding... $N" | tee -a $LOGFILE
+    echo "User is root"
 fi
 
-# Loop through all packages provided as arguments
-for package in "$@"; do
+# Loop through each package provided as arguments
+for package in "$@"; do 
     # Check if the package is already installed
-    apt list --installed "$package" &>> $LOGFILE
+    apt list --installed 2>/dev/null | grep -w "^$package/" > /dev/null
     if [ $? -ne 0 ]; then
-        echo -e "$Y Installing $package... $N" | tee -a $LOGFILE
-        apt install -y "$package" &>> $LOGFILE
+        # Install the package if not installed
+        apt install -y "$package"
         VALIDATE $? "Installation of $package"
     else
-        echo -e "$package is already installed... $Y SKIPPING $N" | tee -a $LOGFILE
-    fi
+        # Print a message if the package is already installed
+        echo -e "$package is already installed ... $Y SKIPPING $N"
+    fi  
 done
-
-echo "Script execution completed at $(date +%F-%H-%M-%S)" | tee -a $LOGFILE
