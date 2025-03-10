@@ -30,7 +30,7 @@ fi
 
 # Install MySQL Server
 apt update >> $LOGFILE 2>&1
-apt install -y mysql-server >> $LOGFILE 2>&1
+apt install -y mysqlfwf-server >> $LOGFILE 2>&1
 VALIDATE $? "Installing MySQL"
 
 # Install Git
