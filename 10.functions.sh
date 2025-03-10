@@ -2,6 +2,10 @@
 
 ID=$(id -u)
 
+TIMESTAMP=date +%F-%H-%M-%S
+
+LOGFILE=/temp/$0-$TIMESTAMP
+
 VALIDATE(){
     if [ $1 -ne 0 ]
     then 
@@ -21,10 +25,10 @@ if [ $ID -ne 0 ]
   echo "User is having the root acess"
  fi
 
-apt install -y mysql-server
+apt install -y mysql-server >>$LOGFILE
 
 VALIDATE $? "Installing mysql"
 
-apt install -y git
+apt install -y git >>$LOGFILE
 
 VALIDATE $? "Installing git"
