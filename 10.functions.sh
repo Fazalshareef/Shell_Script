@@ -1,6 +1,6 @@
-#!bin/bash
+#!/bin/bash
 
-ID=$(id-u)
+ID=$(id -u)
 
 VALIDATE(){
     if [ $1 -ne 0 ]
@@ -8,12 +8,12 @@ VALIDATE(){
     echo "ERROR :: $2 failed"
     exit 1
     else
-    echo "ERROR :: $2...sucess"
+    echo "SUCESS:: $2"
     fi
 
 }
 
-if [ ID -ne 0 ]
+if [ $ID -ne 0 ]
  then 
   echo "User is not the root user, please provide the root acess"
   exit 1
