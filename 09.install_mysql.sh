@@ -9,6 +9,7 @@ if [ $? -ne 0 ]
   else 
    echo "Your are root user"
 fi
+sudo apt install -y yum
 
 yum install mysql -y
 
