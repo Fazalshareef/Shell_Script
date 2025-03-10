@@ -2,20 +2,23 @@
 
 ID=$(id -u)
 
-if [ $? -ne 0 ]
- then 
-  echo "Error :: Root acess is not there, please provide root acess and execute"
-  exit 1 
-  else 
-   echo "Your are root user"
+if [ "$ID" -ne 0 ]; then
+  echo "Error :: Root access is required. Please run as root."
+  exit 1
+else
+  echo "You are a root user."
 fi
-sudo apt install -y yum
 
-yum install mysql -y
+# Install yum (optional for Ubuntu, as apt is preferred)
+sudo apt update && sudo apt install -y yum
 
-echo [ $? -ne 0 ]
- then 
-  echo "Error :: Installing Mysql is failed"
+# Install MySQL using apt (for Ubuntu)
+sudo apt install -y mysql-server
 
- else 
-  echo "Installling Mysql is sucess"
+# Check if MySQL installation was successful
+if [ $? -ne 0 ]; then
+  echo "Error :: Installing MySQL failed"
+  exit 1
+else
+  echo "Installing MySQL was successful"
+fi
